@@ -7,18 +7,16 @@ class Perceptron:
 
     def train(self, data, labels):
         # Tabula rasa's, at t = 0 w(t) = 0
-        weights = np.zeros(data.shape[1], )
+        weights = np.zeros((data.shape[0],data.shape[1]) )
         for t in range(self.epochs):
             for indx, rec in enumerate(data):
-                data[:,0] = data[:,0]*labels
-                data[:,1] = data[:,1]*labels
-                Emu = np.sum(np.dot(data, np.transpose(weights))) <= 0
+                Emu = np.sum(np.dot(rec*labels[indx], weights[indx]))
                 print("CHECK for correctness - PART C; TODO, make 1/10 generic")
                 # TODO: !!!!!!!!!! NEED TO IMPLEMENT Emu > 0 stop condition!!!!!!!!!!
                 for w_indx, w in enumerate(weights):
-                    if Emu:
-                        weights = weights + (1/10) * data
+                    if Emu <= 0:
+                        weights[indx] = weights[indx] + (1/np.size(rec, 0)) * rec
                     else:
-                        weights = weights
+                        weights[indx] = weights[indx]
 
         return weights

@@ -11,8 +11,9 @@ parser = ConfigParser()
 parser.read("conf.ini")
 conf = parser["perceptron"]
 
-mean = 0
-std = 1
+mean = conf.getint("mean")
+std = conf.getint("std")
+dimensions = conf.getint("dimensions")
 
 #######################################################################################################################
 #  INITIALIZING THE INPUT DATA
@@ -21,8 +22,8 @@ std = 1
 sampleSize = conf.getint("vector_size")
 np.random.seed(conf.getint("random_seed"))
 # Initialize the sample vector
-p = util.generate_n_dim_Gaussian(2, sampleSize)
-print(util.printHeading("INPUT DATA SUMMARY"))
+p = util.generate_n_dim_gaussian(dimensions, sampleSize, mean, std)
+print(util.print_heading("INPUT DATA SUMMARY"))
 print("The mean of the input vector = ", p.mean())
 print("The std of the input vector = ", p.std())
 assert(conf.getboolean("disable_assertion") or p.mean() == conf.getfloat("expected_mean"))
@@ -36,11 +37,11 @@ y = np.where(labels < 0)
 print("Number labels with +1 = ", np.size(y))
 assert(conf.getboolean("disable_assertion") or np.size(x) == conf.getint("label_1"))
 assert(conf.getboolean("disable_assertion") or np.size(y) == conf.getint("label_2"))
-print(util.printHeading())
+print(util.print_heading())
 
 plt.figure()
 plt.scatter(p[:,0], p[:,1], alpha=0.5)
-plt.title('Scatter plot pythonspot.com')
+plt.title('Scatter plot perceptron')
 plt.xlabel('x')
 plt.ylabel('y')
 
