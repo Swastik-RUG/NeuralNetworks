@@ -80,10 +80,10 @@ def run_perceptron(conf, sampleSize, alpha):
 
     for data_i, color_i, group_i in zip(data_i, colors_i, groups_i):
         plt.scatter(data_i[:, 0], data_i[:, 1], alpha=0.8, c=color_i, edgecolors='none', s=30, label=group_i)
-    plt.title('Input vector scatter plot alpha=:' + alpha)
+    plt.title('Input vector alpha=:' + alpha)
 
     plt.subplot(1, 2, 2)
     for data, color, group in zip(data, colors, groups):
         plt.scatter(data[:, 0], data[:, 1], alpha=0.8, c=color, edgecolors='none', s=30, label=group)
 
-    plt.title('Weights After training alpha=:' + alpha)
+    plt.title('After training alpha=:' + alpha)
