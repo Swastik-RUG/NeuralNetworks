@@ -14,6 +14,7 @@ class Perceptron:
                 data[:,1] = data[:,1]*labels
                 Emu = np.sum(np.dot(data, np.transpose(weights))) <= 0
                 print("CHECK for correctness - PART C; TODO, make 1/10 generic")
+                # TODO: !!!!!!!!!! NEED TO IMPLEMENT Emu > 0 stop condition!!!!!!!!!!
                 for w_indx, w in enumerate(weights):
                     if Emu:
                         weights = weights + (1/10) * data

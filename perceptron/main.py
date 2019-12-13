@@ -21,7 +21,7 @@ std = 1
 sampleSize = conf.getint("vector_size")
 np.random.seed(conf.getint("random_seed"))
 # Initialize the sample vector
-p = util.generateNDGaussian(2, sampleSize)
+p = util.generate_n_dim_Gaussian(2, sampleSize)
 print(util.printHeading("INPUT DATA SUMMARY"))
 print("The mean of the input vector = ", p.mean())
 print("The std of the input vector = ", p.std())
