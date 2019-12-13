@@ -21,3 +21,9 @@ def PCA_reduction(data):
     principalComponents = pca.fit_transform(x)
     finalres = pd.DataFrame(data = principalComponents, columns = ['principal component 1', 'principal component 2'])
     return finalres
+
+def tupleToNdArray(tup):
+    res = []
+    for i in range(1, len(tup)):
+        res.append(tup[i])
+    return res
