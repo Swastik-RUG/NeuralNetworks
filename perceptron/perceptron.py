@@ -8,20 +8,18 @@ class Perceptron:
 
     def train(self, data, labels):
         # Tabula rasa's, at t = 0 w(t) = 0
-        weights = np.zeros((data.shape[0], data.shape[1]))
-        Ev = 0;
+        column_count = data.shape[1]
+        row_count = data.shape[0]
+        weights = np.zeros((1, column_count))
+        convergence = 0
         for t in range(self.epochs):
-            if np.sum(Ev) < 1:
-                # for indx, rec in enumerate(data):
+            for row_indx in range(row_count):
+                Emu = np.dot(weights, data[row_indx]) * labels[row_indx]
+                if Emu <= 0.0:
+                    weights = weights + (1 / column_count) * (data[row_indx] * labels[row_indx])
 
-                for w_indx, w in enumerate(weights):
-                    Emu = np.sum(np.dot(data[w_indx] * labels[w_indx], weights[w_indx]))
-                    if Emu <= 0:
-                        weights[w_indx] = weights[w_indx] + (1 / np.size(data[w_indx], 0)) * data[w_indx]
-                    else:
-                        weights[w_indx] = weights[w_indx]
+            convergence = np.sum(np.sign(np.sum(weights * data, 1)).astype(int) == labels)
+            if convergence == 0:
+                break
 
-                Ev += np.sum(weights)
-            else:
-                return weights
-        return weights
+        return weights * data, convergence/row_count, row_count-convergence

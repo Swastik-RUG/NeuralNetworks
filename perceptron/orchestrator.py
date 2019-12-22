@@ -24,8 +24,6 @@ def run_perceptron(conf, sampleSize, alpha):
     print(util.print_heading("INPUT DATA SUMMARY"))
     print("The mean of the input vector = ", p.mean())
     print("The std of the input vector = ", p.std())
-    #assert (conf.getboolean("disable_assertion") or p.mean() == conf.getfloat("expected_mean"))
-    #assert (conf.getboolean("disable_assertion") or p.std() == conf.getfloat("expected_std"))
 
     # Initialize the labels
     labels = np.random.choice([-1, 1], size=sampleSize, p=[.5, .5])
@@ -33,8 +31,6 @@ def run_perceptron(conf, sampleSize, alpha):
     print("Number labels with +1 = ", np.size(x))
     y = np.where(labels < 0)
     print("Number labels with +1 = ", np.size(y))
-    #assert (conf.getboolean("disable_assertion") or np.size(x) == conf.getint("label_1"))
-    #assert (conf.getboolean("disable_assertion") or np.size(y) == conf.getint("label_2"))
     print(util.print_heading())
 
     training_data = np.vstack((p[:, 0], p[:, 1], labels))
@@ -45,18 +41,10 @@ def run_perceptron(conf, sampleSize, alpha):
     colors_i = ("red", "blue")
     groups_i = ("labbel1", "label2")
 
-    # Create plot
-    # fig = plt.figure("Input alpha=" + alpha)
-    # ax = fig.add_subplot(1, 1, 1)
-    #
-    # for data, color, group in zip(data, colors, groups):
-    #     ax.scatter(data[:, 0], data[:, 1], alpha=0.8, c=color, edgecolors='none', s=30, label=group)
-    #
-    # plt.title('Input vector scatter plot alpha=:' + alpha)
-
     pr = Perceptron(conf.getfloat("learning_rate"), conf.getint("epochs"))
-    trained = pr.train(p, labels)
-
+    (trained, convergence, misclassified) = pr.train(p, labels)
+    print("Convergence observed = ", convergence)
+    print("Misclassification Observed = ", misclassified)
     training_data = np.vstack((trained[:, 0], trained[:, 1], labels))
     train_label1_indx = np.where(training_data[2] > 0)
     train_label2__indx = np.where(training_data[2] < 1)
@@ -64,16 +52,6 @@ def run_perceptron(conf, sampleSize, alpha):
     data = (trained[train_label1_indx], trained[train_label2__indx])
     colors = ("red", "blue")
     groups = ("labbel1", "label2")
-
-    # Create plot
-    #fig = plt.figure("output alpha=" + alpha)
-    # ax = fig.add_subplot(1, 1, 1)
-    #
-    # for data, color, group in zip(data, colors, groups):
-    #     ax.scatter(data[:, 0], data[:, 1], alpha=0.8, c=color, edgecolors='none', s=30, label=group)
-
-   # plt.title('Weights After training alpha=:' + alpha)
-    #plt.show()
 
     fig = plt.figure("output alpha=" + alpha)
     plt.subplot(1, 2, 1)
@@ -87,3 +65,5 @@ def run_perceptron(conf, sampleSize, alpha):
         plt.scatter(data[:, 0], data[:, 1], alpha=0.8, c=color, edgecolors='none', s=30, label=group)
 
     plt.title('After training alpha=:' + alpha)
+
+    return training_data, convergence, misclassified

@@ -13,6 +13,11 @@ def generate_n_dim_gaussian(N=2, sampleSize=1000, mean=0, std=1):
         res[:, i - 1] = np.random.normal(mean, std, sampleSize)
     return res
 
+
+def generate_n_dim_gaussian2(N=2, sampleSize=100, mean=0, std=1):
+    return np.random.randn(sampleSize, N)
+
+
 def PCA_reduction(data):
     x = data.iloc[:, 0:3].values
     y = data.iloc[:, 3].values
