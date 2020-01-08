@@ -1,7 +1,3 @@
-from random import seed
-from random import gauss
-from random import randrange
-import numpy as np
 from configparser import ConfigParser
 import utility as util
 import matplotlib.pyplot as plt
@@ -18,9 +14,12 @@ for simulation in simulations:
     #simulation = simulations(i)
     cnf = parser[simulation]
     p = int(cnf.getfloat("alpha")*cnf.getint("dimensions"))
-    training_data, convergence, misclassified = run_perceptron(cnf, p, str(cnf.getfloat("alpha")))
+    Nd = cnf.getint("Nd")
+    N_max = cnf.getint("N_max")
+    success_ratio = run_perceptron(cnf, p,cnf.getint("dimensions"), str(cnf.getfloat("alpha")), Nd, N_max)
     alphaValues.append(cnf.getfloat("alpha"))
-    convergenceByAlpha.append(convergence)
+    convergenceByAlpha.append(success_ratio)
+
 
 fig = plt.figure("Alpha vs Convergences")
 plt.plot(alphaValues, convergenceByAlpha)
