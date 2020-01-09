@@ -7,11 +7,12 @@ class Perceptron:
         self.epochs = epochs
 
     def train(self, data, labels):
+        success = 0
         # Tabula rasa's, at t = 0 w(t) = 0
         column_count = data.shape[1]
         row_count = data.shape[0]
         weights = np.zeros((1, column_count))
-        convergence = 0
+        misclassified = 9999
         for t in range(self.epochs):
 
             for row_indx in range(row_count):
@@ -19,8 +20,11 @@ class Perceptron:
                 if Emu <= 0.0:
                     weights = weights + (1 / column_count) * (data[row_indx] * labels[row_indx])
 
-            convergence = np.sum(np.sign(np.sum(weights * data, 1)).astype(int) == labels)
-            if convergence == 0:
+            misclassified = np.sum(np.sign(np.sum(weights * data, 1)).astype(int) != labels)
+            if misclassified == 0:
                 break
 
-        return weights * data, convergence/row_count, row_count-convergence
+        if misclassified == 0:
+            success = success + 1
+
+        return success

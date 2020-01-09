@@ -8,62 +8,29 @@ import matplotlib.pyplot as plt
 from perceptron import Perceptron
 
 
-def run_perceptron(conf, sampleSize, alpha):
+def run_perceptron(conf, sampleSize, dimensions, alpha, Nd, N_max):
     mean = conf.getint("mean")
     std = conf.getint("std")
-    dimensions = conf.getint("dimensions")
-
+    np.random.seed(conf.getint("random_seed"))
     #######################################################################################################################
     #  INITIALIZING THE INPUT DATA
     #######################################################################################################################
+    success = 0
+    for n in range(Nd):
+        p = util.generate_n_dim_gaussian(dimensions, sampleSize, mean, std)
+        print(util.print_heading("INPUT DATA SUMMARY"))
+        print("The mean of the input vector = ", p.mean())
+        print("The std of the input vector = ", p.std())
 
-    # sampleSize = conf.getint("vector_size")
-    np.random.seed(conf.getint("random_seed"))
-    # Initialize the sample vector
-    p = util.generate_n_dim_gaussian(dimensions, sampleSize, mean, std)
-    print(util.print_heading("INPUT DATA SUMMARY"))
-    print("The mean of the input vector = ", p.mean())
-    print("The std of the input vector = ", p.std())
+        # Initialize the labels
+        labels = np.random.choice([-1, 1], size=sampleSize, p=[.5, .5])
+        x = np.where(labels > 0)
+        print("Number labels with +1 = ", np.size(x))
+        y = np.where(labels < 0)
+        print("Number labels with +1 = ", np.size(y))
+        print(util.print_heading())
 
-    # Initialize the labels
-    labels = np.random.choice([-1, 1], size=sampleSize, p=[.5, .5])
-    x = np.where(labels > 0)
-    print("Number labels with +1 = ", np.size(x))
-    y = np.where(labels < 0)
-    print("Number labels with +1 = ", np.size(y))
-    print(util.print_heading())
+        pr = Perceptron(conf.getfloat("learning_rate"), conf.getint("epochs"))
+        success = success + pr.train(p, labels)
 
-    training_data = np.vstack((p[:, 0], p[:, 1], labels))
-    train_label1_indx = np.where(training_data[2] > 0)
-    train_label2__indx = np.where(training_data[2] < 1)
-
-    data_i = (p[train_label1_indx], p[train_label2__indx])
-    colors_i = ("red", "blue")
-    groups_i = ("labbel1", "label2")
-
-    pr = Perceptron(conf.getfloat("learning_rate"), conf.getint("epochs"))
-    (trained, convergence, misclassified) = pr.train(p, labels)
-    print("Convergence observed = ", convergence)
-    print("Misclassification Observed = ", misclassified)
-    training_data = np.vstack((trained[:, 0], trained[:, 1], labels))
-    train_label1_indx = np.where(training_data[2] > 0)
-    train_label2__indx = np.where(training_data[2] < 1)
-
-    data = (trained[train_label1_indx], trained[train_label2__indx])
-    colors = ("red", "blue")
-    groups = ("labbel1", "label2")
-
-    # fig = plt.figure("output alpha=" + alpha)
-    # plt.subplot(1, 2, 1)
-    #
-    # for data_i, color_i, group_i in zip(data_i, colors_i, groups_i):
-    #     plt.scatter(data_i[:, 0], data_i[:, 1], alpha=0.8, c=color_i, edgecolors='none', s=30, label=group_i)
-    # plt.title('Input vector alpha=:' + alpha)
-    #
-    # plt.subplot(1, 2, 2)
-    # for data, color, group in zip(data, colors, groups):
-    #     plt.scatter(data[:, 0], data[:, 1], alpha=0.8, c=color, edgecolors='none', s=30, label=group)
-    #
-    # plt.title('After training alpha=:' + alpha)
-
-    return training_data, convergence, misclassified
+    return success/Nd
