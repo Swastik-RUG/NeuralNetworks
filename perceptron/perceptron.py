@@ -13,6 +13,7 @@ class Perceptron:
         weights = np.zeros((1, column_count))
         convergence = 0
         for t in range(self.epochs):
+
             for row_indx in range(row_count):
                 Emu = np.dot(weights, data[row_indx]) * labels[row_indx]
                 if Emu <= 0.0:
