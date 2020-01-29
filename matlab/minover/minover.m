@@ -3,7 +3,7 @@ function [student] = minover(data, labels, epochs)
     row_count = size(data,1);
     student = zeros(column_count,1);
     threshold = 1e-3;
-    for t=1:epochs
+    for t=1:epochs*row_count
             % Used later to check convergance (method commonly used in
             % kmeans to find convergance)
             prev_student_weights = student;

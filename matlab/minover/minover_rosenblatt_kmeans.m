@@ -4,7 +4,7 @@ lambdas = [0.0];
 alphas = 0.1:0.1:5;
 % Dimension, change to increase size of P
 N = 100;
-itr = 100; % Nd - dimensions
+itr = 50; % Nd - dimensions
 epochs = 100; % Nmax
 rng(100);
 USE_STATE_STORE = 1;
@@ -22,9 +22,8 @@ else
         for j=1:length(alphas)
             alpha = alphas(j);
             lambda = lambdas(i);
-            %[success, results] = run_perceptron(alpha, N, epochs, itr, c);
-            [deviations_base_minover(i, j), ~] = run_minover(alpha, N, epochs, itr, lambda, 0);
-            [deviations_base_rosenblatt(i, j), ~] = run_perceptron(alpha, N, epochs, itr, 0.0, lambda, 0);
+            deviations_base_minover(i, j) = run_minover(alpha, N, epochs, itr, lambda, 0);
+            deviations_base_rosenblatt(i, j) = run_perceptron(alpha, N, epochs, itr, 0.0, lambda, 0);
             [deviations_base_kmeans(i, j)] = run_kmeans(alpha, N, epochs, itr, 0.0, lambda, 0);
         end
     end
