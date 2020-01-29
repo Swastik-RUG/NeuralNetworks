@@ -8,7 +8,7 @@ itr = 50; % Nd - dimensions
 epochs = 100; % Nmax
 rng(100);
 USE_STATE_STORE = 1;
-
+lines = ["m-^", "b-o", "r-*", "-v", '--^'];
 inhomogenous_c_statestore = 'state_store/inhomogenous_c.mat';
 if isfile(inhomogenous_c_statestore) && USE_STATE_STORE == 1
     fprintf("Skipping execution - Using state store results \n")
@@ -47,7 +47,7 @@ epoch = 500; % Nmax
 type = [0,1];
 rng(100);
 
-figure
+figure('NumberTitle', 'off', 'Name', "Storage success rate homogenous vs inhomogenous",'units','normalized','outerposition',[0 0 1 1])
 inhomogenous_vs_homogenous = {};
 inhomogenous_vs_homogenous_state_store = 'state_store/inhomogenous_vs_homogenous.mat';
 subplot_count = 0;
@@ -61,11 +61,13 @@ if isfile(inhomogenous_vs_homogenous_state_store) && USE_STATE_STORE == 1
         subplot(2,2,e)
         py = [];
         for c_res_indx=1:size(success,1)
-            plot(alphas, success(c_res_indx, :));
+            plot(alphas, success(c_res_indx, :),lines(c_res_indx));
             hold on;
         end
         if mod(e,2) == 1  type_str = "homogenous"; else type_str = "inhomogenous"; end       
-        title(sprintf('Learning Rate Analysis of %s data for Dimension = %d', type_str, N(d)));
+        title(sprintf('Storage success rate of %s data for Dimension = %d', type_str, N(d)));
+        ax = gca;
+        ax.FontSize = 14;
         xlabel('Alpha = P/N');
         ylabel('Success Rate');
         legends = ["C = 0.0", "C = 1.0", "C = 2.0"];
@@ -93,14 +95,16 @@ else
         
         subplot(2,2,subplot_count)
         for c_res_indx=1:size(success_for_diff_c,1)
-            pl = plot(alphas, success_for_diff_c(c_res_indx, :));
+            pl = plot(alphas, success_for_diff_c(c_res_indx, :),lines(c_res_indx));
             p3(c_res_indx) = pl;
             hold on;
         end
         subplot_count = subplot_count+1;
         type_str = "";
          if mod(t,2) == 1  type_str = "homogenous"; else type_str = "inhomogenous"; end
-        title(sprintf('Learning Rate Analysis of %s data for Dimension = %d', type_str, N(d)));
+        title(sprintf('Storage success rate of %s data for Dimension = %d', type_str, N(d)));
+        ax = gca;
+        ax.FontSize = 14;
         xlabel('Alpha = P/N');
         ylabel('Success Rate');
         legends = ["C = 0.0", "C = 1.0", "C = 2.0"];

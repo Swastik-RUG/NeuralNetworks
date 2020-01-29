@@ -5,7 +5,7 @@ N = [5, 20, 50, 100, 150, 200];
 itr = 50; % Nd - dimensions
 epoch = 250; % Nmax
 rng(100);
-figure
+figure('NumberTitle', 'off', 'Name', "STORAGE SUCCESS RATE BY DIMENSIONS",'units','normalized','outerposition',[0 0 1 1])
 convergence_by_dimension = {};
 convergence_by_dimension_state_store = 'state_store/convergence_by_dimension.mat';
 if isfile(convergence_by_dimension_state_store) && USE_STATE_STORE == 1
@@ -20,10 +20,12 @@ if isfile(convergence_by_dimension_state_store) && USE_STATE_STORE == 1
             plot(alphas, success(c_res_indx, :));
             hold on;
         end
-        title(sprintf('Learning Rate Analysis for Dimensions = %d', N(e)));
+        title(sprintf('Storage success rate for Dimension = %d', N(e)), "FontSize", 14);
+        ax = gca;
+        ax.FontSize = 14;
         xlabel('Alpha = P/N');
         ylabel('Success Rate');
-        legend("C = 0.0")
+        legend("Error")
     end
 else
     for d=1:length(N)
@@ -44,10 +46,12 @@ else
             p3(c_res_indx) = pl;
             hold on;
         end
-        title(sprintf('Learning Rate Analysis for Dimension = %d', N(d)));
+        title(sprintf('Storage success rate for Dimension = %d', N(d)), "FontSize", 14);
+        ax = gca;
+        ax.FontSize = 14;
         xlabel('Alpha = P/N');
         ylabel('Success Rate');
-        legends = ["C = 0.0"];
+        legends = ["Error"];
         legend(p3, legends)
     end
     save(convergence_by_dimension_state_store, 'convergence_by_dimension')

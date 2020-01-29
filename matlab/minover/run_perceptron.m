@@ -1,4 +1,4 @@
-function [d, e] = run_perceptron(alpha, N, epochs, itr, c, lambda, inhomogeneous)
+function d = run_perceptron(alpha, N, epochs, itr, c, lambda, inhomogeneous)
     deviations = zeros(itr, 1);
     for i=1:itr
         P = ceil(alpha*N);

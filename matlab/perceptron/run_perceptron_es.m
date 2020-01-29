@@ -1,5 +1,6 @@
-function [success, results] = run_perceptron_es(alpha, N, epochs, itr, c, inhomogeneous)
+function [success, results, embedding_strength] = run_perceptron_es(alpha, N, epochs, itr, c, inhomogeneous)
     results = zeros(itr, 1);
+    embedding_str = zeros(itr, 1);
     for i=1:itr
         P = ceil(alpha*N);
         [data, labels]= generate_data_with_labels(P, N);
@@ -7,7 +8,7 @@ function [success, results] = run_perceptron_es(alpha, N, epochs, itr, c, inhomo
             % add clamped input to the data at N+1 dimensions
             data = [data,zeros(size(data, 1), 1)-1];
         end
-        weights = perceptron_ES(data, labels, c, epochs);    
+        [weights, embedding_strength] = perceptron_ES(data, labels, c, epochs);    
         success = all(cmp_labels(data * weights <= c, -1, 1) == labels);
         results(i) = success;
     end
