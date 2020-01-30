@@ -7,7 +7,7 @@ N = 100;
 itr = 50; % Nd - dimensions
 epochs = 100; % Nmax
 rng(100);
-USE_STATE_STORE = 0;
+USE_STATE_STORE = 1;
 
 minover_vs_rosenblatt_statestore = 'state_store/minover_vs_rosenblatt.mat';
 if isfile(minover_vs_rosenblatt_statestore) && USE_STATE_STORE == 1

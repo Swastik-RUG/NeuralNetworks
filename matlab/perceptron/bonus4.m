@@ -32,7 +32,7 @@ for c_res_indx=1:size(inhomogenous_c,1)
     p(c_res_indx) = pl;
     hold on;
 end
-title('Learning Rate Analysis');
+title('Storage success rate for inhomogenous');
 xlabel('Alpha = P/N');
 ylabel('Success Rate');
 legends = ["C = 0.0", "C = 0.5", "C = 1.0", "C = 1.5", "C = 2.0"];

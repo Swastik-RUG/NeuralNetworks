@@ -12,15 +12,16 @@ embedding_strength_counts = [];
 embedding_strength_state_store = 'state_store/embedding_strength.mat';
 if isfile(embedding_strength_state_store) && USE_STATE_STORE == 1
     fprintf("Skipping execution - Using state store results \n")
-    embedding_strength = importdata(embedding_strength_state_store, 'embedding_strength');
-    embedding_strength_counts = importdata(embedding_strength_state_store, 'embedding_strength_counts');
+    embedding_strength = importdata(embedding_strength_state_store, 'embedding_strength').embedding_strength;
+    embedding_strength_counts = importdata(embedding_strength_state_store, 'embedding_strength_counts').embedding_strength_counts;
     for e=1:size(embedding_strength,1)
-        data = embedding_strength_counts(e);
-        r = embedding_strength(e);
+        subplot(2,3,e)
+        data = cell2mat(embedding_strength_counts(e));
+        r = cell2mat(embedding_strength(e));
         x = round(size(data,2)/5);
         histogram(r, x)
         hold on;
-        title(sprintf('Embedding strength for Dimension = %d', N(d)));
+        title(sprintf('Embedding strength for Dimension = %d', N(e)));
         xlabel('Embedding strength');
         ylabel('Embedding strengths update count');
     end
@@ -44,7 +45,7 @@ else
                 r = [r; i];
             end
         end
-        embedding_strength = [embedding_strength; r];
+        embedding_strength = [embedding_strength; {r}];
         embedding_strength_counts = [embedding_strength_counts, {es'}];
         x = round(size(data,2)/5);
         histogram(r, x)
