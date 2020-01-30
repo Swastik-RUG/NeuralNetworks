@@ -1,4 +1,4 @@
 
-## Use the below table to run the matlab script files to simulate the Rosenblatt algorithm simulations mentioned in our report.
+## Refer to the table below to run the relevant matlab script files to simulate the Rosenblatt algorithm simulations mentioned in our report.
 
 ![](rosenblatt_instructions.PNG)
