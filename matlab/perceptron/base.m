@@ -26,15 +26,23 @@ else
     save(base_statestore, 'success_for_diff_c');
 end
 
-figure
+figure('NumberTitle', 'off', 'Name', "STORAGE SUCCESS RATE",'units','normalized','outerposition',[0 0 1 1])
 p = [];
 for c_res_indx=1:size(success_for_diff_c,1)
-    pl = plot(alphas, success_for_diff_c(c_res_indx, :));
+    pl = plot(alphas, success_for_diff_c(c_res_indx, :), 'r-o');
     p(c_res_indx) = pl;
     hold on;
 end
-title('Learning Rate Analysis');
-xlabel('Alpha = P/N');
-ylabel('Success Rate');
-legends = ["C = 0.0"];
+title('STORAGE SUCCESS RATE');
+ax = gca;
+ax.FontSize = 16;
+xlabel('Alpha = P/N', "FontSize", 20);
+ylabel('Success Rate', "FontSize", 20);
+legends = ["Error"];
 legend(p, legends)
+annotation('textbox',...
+    [0.667, 0.77, 0.1, 0.1],...
+    'String',{'alphas = [0.75, 1.0, 1.25, 1.50, 2.0, 2.5, 3.0]','Dimensions = 20', 'Nmax = 50', 'Epochs(tmax) = 100'},...
+    'FontSize',16,...
+    'FontName','Arial',...
+    'LineWidth',1);
