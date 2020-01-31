@@ -20,8 +20,7 @@ else
         c = c_values(i);
         for j=1:length(alphas)
             alpha = alphas(j);
-            %[success, results] = run_perceptron(alpha, N, epochs, itr, c);
-            success_for_diff_c(i, j) = run_perceptron(alpha, N, epochs, itr, c);
+            success_for_diff_c(i, j) = run_perceptron(alpha, N, epochs, itr, c, 0);
         end
     end
     save(diff_LR_statestore, 'success_for_diff_c');
@@ -91,7 +90,7 @@ else
             c = c_values(i);
             for j=1:length(alphas)
                 alpha = alphas(j);
-                success_for_diff_c(i, j) = run_perceptron(alpha, N, epoch, itr, c);
+                success_for_diff_c(i, j) = run_perceptron(alpha, N, epoch, itr, c, 0);
             end
         end
         learning_rate_by_epochs = [learning_rate_by_epochs; {epoch, success_for_diff_c}];
