@@ -7,7 +7,7 @@ N = 100; % Nd - dimensions
 itr = 50; 
 epochs = 100; % Nmax
 rng(100);
-USE_STATE_STORE = 0;
+USE_STATE_STORE = 1;
 
 adaline_statestore = 'state_store/adaline.mat';
 if isfile(adaline_statestore) && USE_STATE_STORE == 1
